@@ -20,7 +20,7 @@ A Google Keep Clone using Django and Angular
 Clone the repository and enter the root directory
 ```
 git clone https://github.com/madhvi-n/django-notes.git
-cd notes-app
+cd django-notes
 ```
 
 
@@ -48,7 +48,7 @@ python manage.py runserver
 Visit `http://127.0.0.1:8000/` or `localhost:8000` for running web server
 Alternatively you can access the admin interface on `http://127.0.0.1:8000/admin/` or `localhost:8000/admin`
 
-Access python shell
+Access python shell using
 ```
 python manage.py shell
 ```
@@ -59,6 +59,7 @@ python manage.py shell
 Start another shell tab and access the root of frontend directory `notes-app` (without bash or activated virtual environment). <br>
 Install the angular dependencies
 ```
+cd static/frontent/reddit-app
 npm install
 ```
 
@@ -70,7 +71,7 @@ Visit `http://127.0.0.1:4200` or `localhost:4200` to access frontend.
 #### Note: Django/Backend runs on WSL and Angular/Frontend runs directly on Windows
 
 
-## References 
+## References
 
 - [How to install Python3.8 on Ubuntu 18.04](https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/)
 - [Installing NodeJs on Windows](https://www.guru99.com/download-install-node-js.html)
