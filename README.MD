@@ -40,10 +40,43 @@ After installing dependencies, migrate Django apps.(You will find the list of ap
 python manage.py migrate
 ```
 
+Create django superuser so that you can access django admin interface
+```
+python manage.py createsuperuser
+
+```
+
+Adding data from shell
+```
+python manage.py shell
+from django.contrib.auth.models import User
+user = User.objects.get(id=1) # Considering the createsuperuser command has been executed before
+
+from labels.models import Label
+label = Label.objects.create(title="My first label", user=user)
+
+from notes.models import Note
+note = note.objects.create(title="Something title", content="Something in the content here", user=user)
+
+# Add label to your note
+note.labels.add(label)
+
+# Change color of your note
+note.color = Note.Color.INDIANRED
+
+# Archive it or pin it
+note.is_pinned = True
+note.is_archived = True
+
+# Save your changes
+note.save()
+```
+
 Finally start your Django server
 ```
 python manage.py runserver
 ```
+
 
 Visit `http://127.0.0.1:8000/` or `localhost:8000` for running web server
 Alternatively you can access the admin interface on `http://127.0.0.1:8000/admin/` or `localhost:8000/admin`
@@ -53,6 +86,7 @@ Access python shell using
 python manage.py shell
 ```
 
+Adding data from shell
 
 ### Frontend
 
