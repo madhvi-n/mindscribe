@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'django_filters',
     'allauth',
     'allauth.account',
     'rest_framework',
@@ -60,7 +61,9 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'corsheaders',
     'core',
-    'profiles'
+    'profiles',
+    'labels',
+    'notes'
 ]
 
 MIDDLEWARE = [
