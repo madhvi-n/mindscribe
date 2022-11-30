@@ -62,6 +62,7 @@ note = note.objects.create(title="Something title", content="Something in the co
 note.labels.add(label)
 
 # Change color of your note
+print(Note.Color.choices)
 note.color = Note.Color.INDIANRED
 
 # Archive it or pin it
