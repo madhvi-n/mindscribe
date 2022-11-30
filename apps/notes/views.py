@@ -185,3 +185,7 @@ class NoteViewSet(BaseViewSet):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(collaborator)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False)
+    def colors(self, request, pk=None):
+        return Response({"colors": dict(Note.Color.choices)}, status=status.HTTP_200_OK)
