@@ -53,7 +53,7 @@ from django.contrib.auth.models import User
 user = User.objects.get(id=1) # Considering the createsuperuser command has been executed before
 
 from labels.models import Label
-label = Label.objects.create(title="My first label", user=user)
+label = Label.objects.create(name="My first label", user=user)
 
 from notes.models import Note
 note = note.objects.create(title="Something title", content="Something in the content here", user=user)
