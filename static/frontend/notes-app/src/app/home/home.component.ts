@@ -3,7 +3,8 @@ import { User } from '@notes/core/models/user.model';
 import { Note } from '@notes/core/models/notes.model';
 import { UserService } from '@notes/core/services/user/user.service';
 import { NoteService } from '@notes/core/services/notes/note.service';
-
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,8 @@ export class HomeComponent implements OnInit {
   user: User;
   columnCount: number = 5;
   colors = [];
+  postForm: FormGroup;
+  isSaved: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -24,6 +27,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
     this.getAuthUser();
     this.getNotes();
     this.onResize();
@@ -37,6 +41,20 @@ export class HomeComponent implements OnInit {
       this.columnCount = card_limit;
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  initForm(){
+    this.postForm = new FormGroup({
+     title: new FormControl('', {validators: [Validators.required]}),
+     content: new FormControl('', {validators: [Validators.required]}),
+    });
+    // this.postForm.valueChanges
+    //   .pipe(debounceTime(1000), distinctUntilChanged())
+    //   .subscribe(
+    //     (response) => {
+    //       this.isSaved = true;
+    //       this.createNote(response);
+    //     });
   }
 
   getAuthUser() {
@@ -61,6 +79,23 @@ export class HomeComponent implements OnInit {
             this.notes.push(element);
           }
         });;
+      })
+  }
+
+  createNote() {
+    const data = {
+      title: this.postForm.controls.title.value,
+      content: this.postForm.controls.content.value,
+      user: this.user.id
+    }
+    this.noteService.createNote(data).subscribe(
+      (response: any) => {
+        this.postForm.reset();
+        this.notes.push(response);
+      },
+      (err: any) => {
+        console.log(err.error);
+        this.postForm.reset();
       })
   }
 

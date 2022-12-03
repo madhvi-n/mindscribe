@@ -2,7 +2,7 @@
   <div class="bg-2" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
     <div class="width-100" style="height:100vh" fxLayout="row" fxLayoutAlign="center center">
       <div class="auth-container shadow-md">
-        <form class="width-100" [formGroup]="loginForm" fxLayout="column" fxLayoutGap="6px">
+        <form class="width-100" autocomplete="off" [formGroup]="loginForm" fxLayout="column" fxLayoutGap="6px">
           <mat-form-field appearance="outline" class="width-100">
             <mat-label>Enter your email</mat-label>
             <input matInput type="email" autocomplete="email" formControlName="email" placeholder="Email address" required>

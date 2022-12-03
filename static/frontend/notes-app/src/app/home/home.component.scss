@@ -29,15 +29,18 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid #e3e3e3;
-  gap: 6px;
+  gap: 8px;
 
   .text-input {
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 500;
     outline: none;
     border: none;
+    width: -webkit-fill-available;
 
     &::placeholder {
-      font-size: 24px;
+      font-size: 20px;
+      font-weight: 500;
     }
   }
 
@@ -52,6 +55,7 @@
 
 .content-input {
   outline: none;
+  width: -webkit-fill-available;
   border: none;
   resize: none;
 }

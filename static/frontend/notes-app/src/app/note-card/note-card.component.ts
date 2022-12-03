@@ -5,6 +5,9 @@ import { UserService } from '../core/services/user/user.service';
 import { NoteService } from '../core/services/notes/note.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NoteDialogComponent } from '@notes/app/components/note-dialog/note-dialog.component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-note-card',
@@ -18,6 +21,7 @@ export class NoteCardComponent implements OnInit {
   colors: [] = [];
   @Output() archiveEvent = new EventEmitter();
   @Output() pinNoteEvent = new EventEmitter();
+  postForm: FormGroup;
 
   constructor(
     private userService: UserService,
@@ -28,6 +32,7 @@ export class NoteCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getColors();
+    this.initForm();
   }
 
   getColors() {
@@ -37,9 +42,37 @@ export class NoteCardComponent implements OnInit {
           this.noteService.colors.subscribe(
             (response: any) => {
               this.colors = response;
-              console.log(this.colors);
           })
         }
+      })
+  }
+
+  initForm(){
+    this.postForm = new FormGroup({
+     title: new FormControl(this.note.title),
+     content: new FormControl(this.note.content),
+    });
+    this.postForm.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe(
+        (response) => {
+          this.updateNote(response);
+        });
+  }
+
+  updateNote(response) {
+    const data = {
+      title: response.title,
+      content: response.content,
+      user: this.user.id
+    }
+    this.noteService.editNote(this.note.id, data).subscribe(
+      (response: any) => {
+        console.log(response);
+      },
+      (err: any) => {
+        console.log(err.error);
+        this.postForm.reset();
       })
   }
 

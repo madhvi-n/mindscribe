@@ -1,6 +1,9 @@
 <div class="create-note-section shadow-sm">
-  <input matInput autocomplete="off" type="text" placeholder="Title" class="text-input" #input>
-  <textarea matInput autocomplete="off" placeholder="Take a note..." class="content-input" cols="100"></textarea>
+  <form [formGroup]="postForm">
+    <input matInput formControlName="title" autocomplete="off" type="text" placeholder="Title" class="text-input" #input>
+    <textarea matInput cdkTextareaAutosize formControlName="content" autocomplete="off" placeholder="Take a note..." class="content-input" cols="100"></textarea>
+  </form>
+  <button mat-button (click)="createNote()">Submit</button>
 </div>
 
 <div class="grid-container" *ngIf="pinnedNotes.length">

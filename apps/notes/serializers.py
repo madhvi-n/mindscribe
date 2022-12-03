@@ -36,5 +36,5 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'title', 'content', 'color', 'is_pinned',
             'user', 'collaborators', 'labels',
-            'is_archived', 'is_edited', 'created_at',
+            'is_archived', 'is_edited', 'created_at', 'updated_at'
         )

@@ -24,7 +24,7 @@ import { HttpXsrfInterceptor } from './auth.header.interceptor';
 import { NoteDialogComponent } from './components/note-dialog/note-dialog.component';
 import { EditLabelDialogComponent } from './components/edit-label-dialog/edit-label-dialog.component';
 import { AddCollaboratorDialogComponent } from './components/add-collaborator-dialog/add-collaborator-dialog.component';
-
+import { TimeSinceModule } from '@thisissoon/angular-timesince';
 
 
 @NgModule({
@@ -51,7 +51,7 @@ import { AddCollaboratorDialogComponent } from './components/add-collaborator-di
   imports: [
     BrowserModule,
     FormsModule,
-    // FlexLayoutModule,
+    TimeSinceModule,
     ReactiveFormsModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({

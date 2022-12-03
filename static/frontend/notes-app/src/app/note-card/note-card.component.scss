@@ -8,7 +8,6 @@
   font-size: 12px;
   color: #3c4043;
   font-weight: 500;
-  min-height: 180px;
   height: fit-content;
   background-color: #ffffff;
   transition: .2s;
@@ -67,4 +66,26 @@
     border-radius: 50%;
     display: inline-block;
   }
+}
+
+.text-input {
+  font-size: 20px;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  background: inherit;
+  width: -webkit-fill-available;
+
+  &::placeholder {
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.content-input {
+  outline: none;
+  width: -webkit-fill-available;
+  border: none;
+  resize: none;
+  background: inherit;
 }

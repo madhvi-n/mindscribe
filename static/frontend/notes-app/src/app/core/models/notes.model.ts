@@ -6,6 +6,7 @@ export class Note {
   content: string;
   color: string;
   created_at: string;
+  updated_at: string;
   is_pinned: boolean;
   is_archived: boolean;
   is_edited: boolean;

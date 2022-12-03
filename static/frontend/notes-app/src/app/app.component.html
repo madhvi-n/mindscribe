@@ -1,69 +1,74 @@
-<mat-toolbar color="warn" class="header shadow-sm" id="header">
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="20">
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-      <!-- <img src="../../assets/favicon/apple-touch-icon.png" alt="Icon" height="30" width="30"> -->
-      <a [routerLink]="['']" class="navbar-brand font-bold nav-link" style="text-decoration:none; color:white">
-        Django Notes
-      </a>
-    </div>
-  </div>
-
-  <div class="search-bar" fxFlex="50">
-    <mat-icon class="search-icon" (click)="search()" >search</mat-icon>
-    <input matInput class="search-input" type="text" autocomplete="off" placeholder="Search" (keyup.enter)="search()" [formControl]="searchControl">
-  </div>
-
-  <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="10">
-    <button mat-icon-button><mat-icon>help_outline</mat-icon></button>
-    <button mat-icon-button><mat-icon>settings</mat-icon></button>
-    <button mat-icon-button><mat-icon>apps</mat-icon></button>
-    <button mat-icon-button><mat-icon>person</mat-icon></button>
-    <button mat-icon-button (click)="logout"><mat-icon>logout</mat-icon></button>
-  </div>
-</mat-toolbar>
-
-<aside class="sidebar">
-  <mat-nav-list class="nav-list">
-    <a mat-list-item [routerLink]="[ '' ]" routerLinkActive="active-link">
-      <mat-icon class="list-icon">home</mat-icon>
-      Home
-    </a>
-    <a mat-list-item [routerLink]="[ 'reminders' ]" routerLinkActive="active-link">
-      <mat-icon class="list-icon">notification_important</mat-icon>
-      Reminders
-    </a>
-
-    <ng-container *ngIf="labels.length">
-      <ng-container *ngFor="let label of labels">
-        <a mat-list-item [routerLink]="[ 'labels', label.name ]" routerLinkActive="active-link">
-          <mat-icon class="list-icon">label</mat-icon>
-          {{ label.name }}
+<ng-container *ngIf="!authRoute; else unAuthRoute">
+  <mat-toolbar color="warn" class="header shadow-sm" id="header">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="20">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+        <a [routerLink]="['']" class="navbar-brand font-bold nav-link" style="text-decoration:none; color:white">
+          Django Notes
         </a>
+      </div>
+    </div>
+
+    <div class="search-bar" fxFlex="50">
+      <mat-icon class="search-icon" (click)="search()" >search</mat-icon>
+      <input matInput class="search-input" type="text" autocomplete="off" placeholder="Search" (keyup.enter)="search()" [formControl]="searchControl">
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="10">
+      <button mat-icon-button><mat-icon>help_outline</mat-icon></button>
+      <button mat-icon-button><mat-icon>settings</mat-icon></button>
+      <button mat-icon-button><mat-icon>apps</mat-icon></button>
+      <button mat-icon-button><mat-icon>person</mat-icon></button>
+      <button mat-icon-button (click)="logout()"><mat-icon>logout</mat-icon></button>
+    </div>
+  </mat-toolbar>
+
+  <aside class="sidebar">
+    <mat-nav-list class="nav-list">
+      <a mat-list-item [routerLink]="[ '' ]" routerLinkActive="active-link">
+        <mat-icon class="list-icon">home</mat-icon>
+        Home
+      </a>
+      <a mat-list-item [routerLink]="[ 'reminders' ]" routerLinkActive="active-link">
+        <mat-icon class="list-icon">notification_important</mat-icon>
+        Reminders
+      </a>
+
+      <ng-container *ngIf="labels.length">
+        <ng-container *ngFor="let label of labels">
+          <a mat-list-item [routerLink]="[ 'labels', label.name ]" routerLinkActive="active-link">
+            <mat-icon class="list-icon">label</mat-icon>
+            {{ label.name }}
+          </a>
+        </ng-container>
       </ng-container>
-    </ng-container>
 
-    <a mat-list-item (click)="addLabel()">
-      <mat-icon class="list-icon">add</mat-icon>
-      Add Label
-    </a>
+      <a mat-list-item (click)="addLabel()">
+        <mat-icon class="list-icon">add</mat-icon>
+        Add Label
+      </a>
 
-    <a mat-list-item [routerLink]="[ 'archive' ]">
-      <mat-icon class="list-icon">archive</mat-icon>
-      Archive
-    </a>
+      <a mat-list-item [routerLink]="[ 'archive' ]">
+        <mat-icon class="list-icon">archive</mat-icon>
+        Archive
+      </a>
+    </mat-nav-list>
+  </aside>
 
-    <!-- <a mat-list-item [routerLink]="[ 'trash' ]">
-      <mat-icon class="list-icon">delete</mat-icon>
-      Trash
-    </a> -->
-  </mat-nav-list>
-</aside>
-<main class="main bg-container">
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
-</main>
+  <main class="main bg-container">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 
-<footer class="footer">
-  Terms of Policy . Privacy Policy . Help . Copyright@2022 . <a href="https://github.com/madhvi-n/django-notes/">Madhvi N</a>
-</footer>
+  <footer class="footer">
+    Terms of Policy . Privacy Policy . Help . Copyright@2022 . <a href="https://github.com/madhvi-n/django-notes/">Madhvi N</a>
+  </footer>
+</ng-container>
+
+<ng-template #unAuthRoute>
+  <main style="main bg-container">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</ng-template>
