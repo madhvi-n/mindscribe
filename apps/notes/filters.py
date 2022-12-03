@@ -1,10 +1,9 @@
-from django_filters import filters, FilterSet
 from notes.models import Note
+import django_filters
 
-
-class NoteFilterSet(FilterSet):
+class NoteFilterSet(django_filters.rest_framework.FilterSet):
     class Meta:
         model = Note
         fields = (
-            'user', 'labels'
+            'user', 'labels__name', 'is_pinned', 'is_archived',
         )

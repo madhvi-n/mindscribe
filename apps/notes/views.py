@@ -13,7 +13,7 @@ from notes.filters import NoteFilterSet
 
 
 class NoteViewSet(BaseViewSet):
-    queryset = Note.objects.all()
+    queryset = Note.objects.all().exclude(is_archived=True)
     serializer_class = NoteSerializer
     serializer_action_classes = {
         'create': NoteCreateSerializer,
@@ -66,6 +66,7 @@ class NoteViewSet(BaseViewSet):
         note.delete()
         return Response({"success": True}, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['put'])
     def add_label(self, request, pk=None):
         note = self.get_object()
         user = request.user
@@ -88,6 +89,7 @@ class NoteViewSet(BaseViewSet):
         serializer = serializer_class(label_obj)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(detail=True, methods=['put'])
     def remove_label(self, request, pk=None):
         note = self.get_object()
         user = request.user
@@ -107,8 +109,8 @@ class NoteViewSet(BaseViewSet):
             return Response({"error": str(e), "message": e.message}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True)
-    def pin(self, request, pk=None):
+    @action(detail=True, methods=['put'])
+    def toggle_pinned(self, request, pk=None):
         user = request.user
         note = self.get_object()
         if not user.is_authenticated:
@@ -120,8 +122,8 @@ class NoteViewSet(BaseViewSet):
         note.save()
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True)
-    def archive(self, request, pk=None):
+    @action(detail=True, methods=['put'])
+    def toggle_archived(self, request, pk=None):
         user = request.user
         note = self.get_object()
         if not user.is_authenticated:
@@ -132,7 +134,7 @@ class NoteViewSet(BaseViewSet):
         note.save()
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True)
+    @action(detail=True, methods=['put'])
     def change_color(self, request, pk=None):
         user = request.user
         note = self.get_object()
@@ -140,10 +142,13 @@ class NoteViewSet(BaseViewSet):
             return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
         if note.user != user:
             return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
-        data = request.data
-        note = self.get_object()
-        note.color = data['color']
-        note.save()
+        try:
+            data = request.data
+            note = self.get_object()
+            note.color = data['color']
+            note.save()
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['put'])
@@ -187,5 +192,15 @@ class NoteViewSet(BaseViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False)
+    def archived(self, request, pk=None):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer_class = self.get_serializer_class()
+        queryset = Note.objects.filter(is_archived=True)
+        serializer = serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False)
     def colors(self, request, pk=None):
-        return Response({"colors": dict(Note.Color.choices)}, status=status.HTTP_200_OK)
+        return Response({"colors": dict(Note.Color.choices).values()}, status=status.HTTP_200_OK)

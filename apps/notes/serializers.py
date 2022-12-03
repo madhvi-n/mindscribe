@@ -30,7 +30,6 @@ class NoteCreateSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     collaborators = UserSerializer(many=True, required=False)
     labels = LabelReadOnlySerializer(many=True, required=False)
-    user = UserReadOnlySerializer()
 
     class Meta:
         model = Note
