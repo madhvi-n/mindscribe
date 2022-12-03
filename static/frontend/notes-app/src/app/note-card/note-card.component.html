@@ -1,0 +1,32 @@
+<div class="card-item" [ngStyle]="{'margin': detail ? '0' : '10px', 'background-color': note.color, 'border-color': note.color }">
+  <div class="card-header" (click)="detail ? '' : openDialog(note)">
+    <div class="card-title" [ngStyle]="{'font-size': detail ? '24px' : '20px'}">
+      {{ note.title }}
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="note.content.length > 500; else contentTemplate">
+        {{ note.content | slice: 0:500 }} ...
+      </ng-container>
+      <ng-template #contentTemplate>
+        {{ note.content }}
+      </ng-template>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button mat-icon-button [matMenuTriggerFor]="formatColor"><mat-icon style="color: #212324">format_color_fill</mat-icon></button>
+    <mat-menu #formatColor="matMenu" xPosition="after">
+      <div class="colors-section" *ngIf="colors && colors.length > 0">
+        <ng-container *ngFor="let color of colors">
+          <button mat-icon-button (click)="changeColor(note.id, color)">
+            <div class="color-tile" [ngStyle]="{'background-color': color }">
+              <mat-icon class="checked-icon" *ngIf="note.color.toLowerCase() === color.toLowerCase()">done</mat-icon>
+            </div>
+          </button>
+        </ng-container>
+      </div>
+    </mat-menu>
+    <button mat-icon-button (click)="archive()"><mat-icon style="color: #212324">archive</mat-icon></button>
+    <button mat-icon-button><mat-icon style="color: #212324">group_add</mat-icon></button>
+    <!-- <button mat-icon-button><mat-icon style="color: #212324">more_vert</mat-icon></button> -->
+  </div>
+</div>

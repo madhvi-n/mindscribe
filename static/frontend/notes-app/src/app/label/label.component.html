@@ -1,0 +1,23 @@
+<ng-container *ngIf="pinnedNotes.length || notes.length; else noNotes">
+  <div class="grid-container" *ngIf="pinnedNotes.length">
+    <p class="font-bold grid-subtitle">PINNED</p>
+    <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+      <ng-container *ngFor="let note of pinnedNotes">
+        <app-note-card [note]="note" [user]="user"></app-note-card>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="grid-container" *ngIf="notes.length">
+    <p class="font-bold grid-subtitle">OTHERS</p>
+    <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+      <ng-container *ngFor="let note of notes">
+        <app-note-card [note]="note" [user]="user"></app-note-card>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #noNotes>
+  <h1>No notes available</h1>
+</ng-template>

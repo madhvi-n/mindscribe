@@ -1,0 +1,25 @@
+<ng-container *ngIf="data">
+  <!-- <div class="card-item" [ngStyle]="{'background-color': note.color, 'border-color': note.color }">
+    <div class="card-header">
+      <div class="card-title">
+        {{ note.title }}
+      </div>
+      <div class="card-content">
+        <ng-container *ngIf="note.content.length > 500; else contentTemplate">
+          {{ note.content | slice: 0:500 }} ...
+        </ng-container>
+        <ng-template #contentTemplate>
+          {{ note.content }}
+        </ng-template>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button mat-icon-button><mat-icon style="color: #212324">format_color_fill</mat-icon></button>
+      <button mat-icon-button><mat-icon style="color: #212324">archive</mat-icon></button>
+      <button mat-icon-button><mat-icon style="color: #212324">group_add</mat-icon></button>
+      <button mat-icon-button><mat-icon style="color: #212324">share</mat-icon></button>
+      <button mat-icon-button><mat-icon style="color: #212324">more_vert</mat-icon></button>
+    </div>
+  </div> -->
+  <app-note-card [detail]="true" [note]="data.note" [user]="data.user"></app-note-card>
+</ng-container>

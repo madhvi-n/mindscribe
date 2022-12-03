@@ -1,0 +1,22 @@
+<div class="create-note-section shadow-sm">
+  <input matInput autocomplete="off" type="text" placeholder="Title" class="text-input" #input>
+  <textarea matInput autocomplete="off" placeholder="Take a note..." class="content-input" cols="100"></textarea>
+</div>
+
+<div class="grid-container" *ngIf="pinnedNotes.length">
+  <p class="font-bold grid-subtitle">PINNED</p>
+  <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+    <ng-container *ngFor="let note of pinnedNotes">
+      <app-note-card [note]="note" [user]="user" (archiveEvent)="archivedEvent($event)"></app-note-card>
+    </ng-container>
+  </div>
+</div>
+
+<div class="grid-container" *ngIf="notes.length">
+  <p class="font-bold grid-subtitle">OTHERS</p>
+  <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+    <ng-container *ngFor="let note of notes">
+      <app-note-card [note]="note" [user]="user" (archiveEvent)="archivedEvent($event)"></app-note-card>
+    </ng-container>
+  </div>
+</div>
