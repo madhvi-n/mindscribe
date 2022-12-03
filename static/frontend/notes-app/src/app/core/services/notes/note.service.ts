@@ -45,6 +45,11 @@ export class NoteService {
     this.colorsInitialized.next(true);
   }
 
+  setLabels(labels: any[]) {
+    this.labels = new BehaviorSubject(labels);
+    this.labelsInitialized.next(true);
+  }
+
   deleteNote(note_id: number){
     return this.http.delete(this.baseUrl + `notes/${note_id}/`);
   }

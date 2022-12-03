@@ -111,6 +111,23 @@ h1, h2, h3, h4, h5, h6, b {
   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 
+.flex-center-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.height-50vh {
+  height: 50vh;
+}
+
 @for $i from 1 through 8 {
   .margin-#{$i} {
     margin: $i * 4px;

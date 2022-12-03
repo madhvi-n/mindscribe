@@ -3,13 +3,14 @@ import { UserService } from './core/services/user/user.service';
 import { NoteService } from './core/services/notes/note.service';
 import { StorageHandlerService } from './core/services/storage/storage-handler.service';
 import { User } from './core/models/user.model';
+import { Label } from './core/models/notes.model';
 import { environment } from '@notes/env/environment';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { EditLabelDialogComponent } from '@notes/app/components/edit-label-dialog/edit-label-dialog.component';
+import { EditLabelDialogComponent } from './components/edit-label-dialog/edit-label-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +22,10 @@ export class AppComponent {
   authRoute: boolean = false;
   user: User;
   value = 'Search';
-  labels: [] = [];
+  labels: Label[] = [];
   searchControl: FormControl = new FormControl();
   colors: [] = [];
-  
+
   constructor(
     private router: Router,
     private userService: UserService,
@@ -40,10 +41,10 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.userService.fetchUser((user) => this.user = user);
+    this.getColors();
     if(this.user){
       this.getLabels();
     }
-    this.getColors();
   }
   @HostListener('window:scroll', ['$event'])
   onResize() {
@@ -75,13 +76,30 @@ export class AppComponent {
 
   getLabels(){
     this.noteService.getUserLabels().subscribe(
-      (response: any) => {
+      (response: Label[]) => {
         this.labels = response;
+        this.noteService.setLabels(this.labels);
       })
   }
 
-  editLabel() {
+  editLabel(label: Label) {
+    const dialogRef = this.dialog.open(EditLabelDialogComponent, {
+      data: {
+        user: this.user,
+        label: label,
+        new: true
+      },
+      width: '400px'
+    })
 
+    dialogRef.afterClosed().subscribe(
+      (result: Label) => {
+        if(result) {
+          this.labels = this.labels.filter((element) => {
+            return element.id != label.id;
+          });
+        }
+    });
   }
 
   addLabel() {
@@ -90,12 +108,15 @@ export class AppComponent {
         user: this.user,
         new: true
       },
-      width: '300px'
+      width: '400px'
     })
 
     dialogRef.afterClosed().subscribe(
-      result => { console.log(result) }
-    );
+      (result: Label) => {
+        if(result) {
+          this.labels.push(result);
+        }
+    });
   }
 
   logout() {

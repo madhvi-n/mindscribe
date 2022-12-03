@@ -1,1 +1,14 @@
-<p>edit-label-dialog works!</p>
+
+<div class="width-100">
+  <h3>{{ (data?.new) ? 'Add label' : 'Edit label' }}</h3>
+  <form [formGroup]="labelForm" class="width-100" autocomplete="off">
+    <mat-form-field appearance="outline" class="width-100">
+      <input matInput formControlName="name" autocomplete="off" type="text" placeholder="Name">
+    </mat-form-field>
+  </form>
+
+  <div class="buttons-section">
+    <button mat-raised-button (click)="close()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="submit()">Save</button>
+  </div>
+</div>

@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
           this.userService.user.subscribe(
             (response: User) => {
               this.user = response;
+              console.log(this.user);
             })
         }
       })
@@ -100,6 +101,7 @@ export class HomeComponent implements OnInit {
   }
 
   pinNoteEvent(event: any) {
+    // Hack for now
     this.getNotes();
   }
 

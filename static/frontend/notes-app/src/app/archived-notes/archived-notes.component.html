@@ -1,21 +1,26 @@
-<div class="create-note">
-
-</div>
-
-<div class="grid-container" *ngIf="pinnedNotes.length">
-  <p class="font-bold grid-subtitle">PINNED</p>
-  <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
-    <ng-container *ngFor="let note of pinnedNotes">
-      <app-note-card [note]="note" [user]="user"></app-note-card>
-    </ng-container>
+<ng-container *ngIf="pinnedNotes.length || notes.length; else viewTemplate">
+  <div class="grid-container" *ngIf="pinnedNotes.length">
+    <p class="font-bold grid-subtitle">PINNED</p>
+    <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+      <ng-container *ngFor="let note of pinnedNotes">
+        <app-note-card [note]="note" [user]="user"></app-note-card>
+      </ng-container>
+    </div>
   </div>
-</div>
 
-<div class="grid-container" *ngIf="notes.length">
-  <p class="font-bold grid-subtitle">OTHERS</p>
-  <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
-    <ng-container *ngFor="let note of notes">
-      <app-note-card [note]="note" [user]="user"></app-note-card>
-    </ng-container>
+  <div class="grid-container" *ngIf="notes.length">
+    <p class="font-bold grid-subtitle">OTHERS</p>
+    <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
+      <ng-container *ngFor="let note of notes">
+        <app-note-card [note]="note" [user]="user"></app-note-card>
+      </ng-container>
+    </div>
   </div>
-</div>
+</ng-container>
+
+<ng-template #viewTemplate>
+  <div class="flex-center-column height-50vh">
+    <img src="https://cdn-icons-png.flaticon.com/512/7693/7693316.png" height="100" width="100" alt="">
+    <h2>Your archive notes appear here</h2>
+  </div>
+</ng-template>

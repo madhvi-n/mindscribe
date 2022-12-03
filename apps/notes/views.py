@@ -22,6 +22,11 @@ class NoteViewSet(BaseViewSet):
     permission_class = [IsAuthenticated,]
     filterset_class = NoteFilterSet
 
+    def get_queryset(self):
+        user = self.request.user
+        queryset = self.queryset.filter(user=user)
+        return queryset
+
     def create(self, request):
         data = request.data
         if not request.user.is_authenticated:
@@ -197,7 +202,7 @@ class NoteViewSet(BaseViewSet):
         if not user.is_authenticated:
             return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer_class = self.get_serializer_class()
-        queryset = Note.objects.filter(is_archived=True)
+        queryset = self.get_queryset().filter(is_archived=True)
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
