@@ -3,6 +3,7 @@
   width: inherit;
   height: 60px;
   display: none;
+  position: fixed;
 
   @media (min-width: 1280px) {
     height: calc(100vh - 66px);
@@ -16,7 +17,6 @@
 }
 
 .main {
-  padding: 32px 24px;
   margin-left: 0;
   padding-top: 120px;
 
@@ -85,7 +85,7 @@
 .container {
   min-height: calc(100vh - 56px);
   width: 100%;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   // padding: 32px;
   // max-width: 720px;
   // margin: auto;

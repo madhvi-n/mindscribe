@@ -18,7 +18,6 @@
   background: rgba(0, 0, 0, 0.65);
 }
 
-
 .create-note-section {
   display: flex;
   flex-direction: column;
@@ -43,15 +42,7 @@
       font-weight: 500;
     }
   }
-
-  &:focus, &:hover {
-    .text-input {
-
-    }
-  }
 }
-
-
 
 .content-input {
   outline: none;

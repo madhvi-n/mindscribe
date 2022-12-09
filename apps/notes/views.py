@@ -13,7 +13,7 @@ from notes.filters import NoteFilterSet
 
 
 class NoteViewSet(BaseViewSet):
-    queryset = Note.objects.all().exclude(is_archived=True)
+    queryset = Note.objects.all()
     serializer_class = NoteSerializer
     serializer_action_classes = {
         'create': NoteCreateSerializer,
@@ -26,6 +26,12 @@ class NoteViewSet(BaseViewSet):
         user = self.request.user
         queryset = self.queryset.filter(user=user)
         return queryset
+
+    def list(self, request):
+        queryset = self.get_queryset().exclude(is_archived=True)
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         data = request.data
@@ -135,8 +141,11 @@ class NoteViewSet(BaseViewSet):
             return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
         if note.user != user:
             return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
-        note.is_archived = not note.is_archived
-        note.save()
+        try:
+            note.is_archived = not note.is_archived
+            note.save()
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['put'])
@@ -202,7 +211,7 @@ class NoteViewSet(BaseViewSet):
         if not user.is_authenticated:
             return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer_class = self.get_serializer_class()
-        queryset = self.get_queryset().filter(is_archived=True)
+        queryset = Note.objects.filter(is_archived=True, user=user)
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

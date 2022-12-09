@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../../environments/environment';
-import { UserService } from '../../services/user/user.service';
-import { User } from '../../models/user.model';
+import { environment } from '@notes/env/environment';
+import { UserService } from '@notes/core/services/user/user.service';
+import { User } from '@notes/core/models/user.model';
 
 @Injectable({
   providedIn: 'root'

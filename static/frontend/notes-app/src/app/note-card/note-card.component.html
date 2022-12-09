@@ -2,18 +2,25 @@
   <ng-container *ngIf="detail; else readTemplate">
     <div class="card-header">
       <form [formGroup]="postForm">
-        <input matInput formControlName="title" autocomplete="off" type="text" placeholder="Title" class="text-input" #input>
+        <textarea matInput cdkTextareaAutosize formControlName="title" autocomplete="off" placeholder="Title" class="content-input text-input" cols="100"></textarea>
         <textarea matInput cdkTextareaAutosize formControlName="content" autocomplete="off" placeholder="Take a note..." class="content-input" cols="100"></textarea>
       </form>
     </div>
     <p *ngIf="note.is_edited" cstyle="text-align: end">Updated {{ note.updated_at | timeSince }} ago</p>
   </ng-container>
+
   <ng-template #readTemplate>
-    <div class="card-header" (click)="openDialog(note)">
-      <div class="card-title" [ngStyle]="{'font-size': detail ? '24px' : '20px'}">
+    <div class="card-header">
+      <button mat-icon-button class="toggle-pin-btn" (click)="togglePinned()">
+        <mat-icon style="color: #212324" *ngIf="note.is_pinned">bookmark</mat-icon>
+        <mat-icon style="color: #212324" *ngIf="!note.is_pinned">bookmark_border</mat-icon>
+      </button>
+
+      <div class="card-title" (click)="openDialog(note)" [ngStyle]="{'font-size': detail ? '24px' : '20px'}">
         {{ note.title }}
       </div>
-      <div class="card-content">
+
+      <div class="card-content" (click)="openDialog(note)">
         <ng-container *ngIf="note.content.length > 500; else contentTemplate">
           {{ note.content | slice: 0:500 }} ...
         </ng-container>
@@ -23,6 +30,10 @@
       </div>
     </div>
   </ng-template>
+
+  <div class="card-labels" *ngIf="note.labels">
+    
+  </div>
 
   <div class="card-footer">
     <button mat-icon-button [matMenuTriggerFor]="formatColor"><mat-icon style="color: #212324">format_color_fill</mat-icon></button>
@@ -37,7 +48,12 @@
         </ng-container>
       </div>
     </mat-menu>
-    <button mat-icon-button (click)="archive()"><mat-icon style="color: #212324">archive</mat-icon></button>
+
+    <button mat-icon-button (click)="archive()">
+      <mat-icon style="color: #212324" *ngIf="note.is_archived">unarchive</mat-icon>
+      <mat-icon style="color: #212324" *ngIf="!note.is_archived">archive</mat-icon>
+    </button>
+
     <button mat-icon-button><mat-icon style="color: #212324">group_add</mat-icon></button>
     <!-- <button mat-icon-button><mat-icon style="color: #212324">more_vert</mat-icon></button> -->
   </div>

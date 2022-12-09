@@ -13,7 +13,7 @@ import { ReminderComponent } from './reminder/reminder.component';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
     canActivate: [AuthGuard]
   },
@@ -50,7 +50,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: '',
+    pathMatch: 'full'
   }
 ];
 

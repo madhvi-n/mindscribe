@@ -41,6 +41,10 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.userService.fetchUser((user) => this.user = user);
+    if(!this.user){
+      this.router.navigate(['sign-in']);
+    }
+    
     this.getColors();
     if(this.user){
       this.getLabels();

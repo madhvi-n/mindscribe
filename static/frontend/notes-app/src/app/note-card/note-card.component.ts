@@ -103,7 +103,7 @@ export class NoteCardComponent implements OnInit {
     this.noteService.togglePinned(this.note.id).subscribe(
       (response: any) => {
         if(response?.success) {
-          this.pinNoteEvent.emit({'note': this.note.id, 'is_pinned': !this.note.is_pinned });
+          this.pinNoteEvent.emit({'note': this.note, 'is_pinned': !this.note.is_pinned });
         }
       })
   }
@@ -115,5 +115,9 @@ export class NoteCardComponent implements OnInit {
           this.archiveEvent.emit({'note': this.note.id, 'is_pinned': this.note.is_pinned });
         }
       })
+  }
+
+  removeLabel(label) {
+    
   }
 }

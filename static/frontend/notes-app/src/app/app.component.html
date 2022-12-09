@@ -1,4 +1,12 @@
-<ng-container *ngIf="!authRoute; else unAuthRoute">
+<ng-container *ngIf="authRoute; else unAuthRoute">
+  <main style="main bg-container">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</ng-container>
+
+<ng-template #unAuthRoute>
   <mat-toolbar color="primary" class="header shadow-sm" id="header">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="20">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
@@ -14,28 +22,28 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="10">
-      <button mat-icon-button><mat-icon>help_outline</mat-icon></button>
+      <!-- <button mat-icon-button><mat-icon>help_outline</mat-icon></button>
       <button mat-icon-button><mat-icon>settings</mat-icon></button>
-      <button mat-icon-button><mat-icon>apps</mat-icon></button>
+      <button mat-icon-button><mat-icon>apps</mat-icon></button> -->
       <button mat-icon-button><mat-icon>person</mat-icon></button>
       <button mat-icon-button (click)="logout()"><mat-icon>logout</mat-icon></button>
     </div>
   </mat-toolbar>
 
-  <aside class="sidebar">
+  <aside class="sidebar" *ngIf="user">
     <mat-nav-list class="nav-list">
-      <a mat-list-item [routerLink]="[ '' ]" routerLinkActive="active-link">
+      <a mat-list-item [routerLink]="[ '' ]">
         <mat-icon class="list-icon">home</mat-icon>
         Home
       </a>
-      <a mat-list-item [routerLink]="[ 'reminders' ]" routerLinkActive="active-link">
+      <a mat-list-item [routerLink]="[ 'reminders' ]">
         <mat-icon class="list-icon">notification_important</mat-icon>
         Reminders
       </a>
 
       <ng-container *ngIf="labels.length">
         <ng-container *ngFor="let label of labels">
-          <a mat-list-item [routerLink]="[ 'labels', label.name ]" routerLinkActive="active-link">
+          <a mat-list-item [routerLink]="[ 'labels', label.name ]">
             <mat-icon class="list-icon">label</mat-icon>
             {{ label.name }}
           </a>
@@ -58,17 +66,10 @@
     <div class="container">
       <router-outlet></router-outlet>
     </div>
+
+    <footer class="footer">
+      Terms of Policy . Privacy Policy . Help . Copyright@2022 . <a href="https://github.com/madhvi-n/django-notes/">Madhvi N</a>
+    </footer>
   </main>
 
-  <footer class="footer">
-    Terms of Policy . Privacy Policy . Help . Copyright@2022 . <a href="https://github.com/madhvi-n/django-notes/">Madhvi N</a>
-  </footer>
-</ng-container>
-
-<ng-template #unAuthRoute>
-  <main style="main bg-container">
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
 </ng-template>

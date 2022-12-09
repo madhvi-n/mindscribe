@@ -73,7 +73,7 @@ import { TimeSinceModule } from '@thisissoon/angular-timesince';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpXsrfInterceptor,
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })

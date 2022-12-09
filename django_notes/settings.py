@@ -192,6 +192,5 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_PREFLIGHT_MAX_AGE = 86400
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
     "http://localhost:4200",
 ]

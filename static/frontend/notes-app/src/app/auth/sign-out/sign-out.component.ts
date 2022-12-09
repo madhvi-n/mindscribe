@@ -39,6 +39,6 @@ export class SignOutComponent implements OnInit {
 
     setTimeout(() => {
       window.open(`${environment.appUrl}`, '_self')
-    }, 3000);
+    }, 2000);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, ChangeDetectorRef, Inject } from '@angular/core';
 import { User } from '@notes/core/models/user.model';
 import { Note } from '@notes/core/models/notes.model';
 import { UserService } from '@notes/core/services/user/user.service';
@@ -19,11 +19,12 @@ export class HomeComponent implements OnInit {
   colors = [];
   postForm: FormGroup;
   isSaved: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private userService: UserService,
     private noteService: NoteService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -100,11 +101,6 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  pinNoteEvent(event: any) {
-    // Hack for now
-    this.getNotes();
-  }
-
   archivedEvent(event: any) {
     if(event.is_pinned){
         this.pinnedNotes = this.pinnedNotes.filter((note) => {
@@ -114,6 +110,22 @@ export class HomeComponent implements OnInit {
       this.notes = this.notes.filter((note) => {
         return note.id !== event.note;
       })
+    }
+  }
+
+  notePinnedEvent(event: any) {
+    if(event.is_pinned) {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note.id;
+      })
+      event.note.is_pinned = true;
+      this.pinnedNotes.push(event.note);
+    } else {
+      this.pinnedNotes = this.pinnedNotes.filter((note) => {
+        return note.id !== event.note.id;
+      })
+      event.note.is_pinned = false;
+      this.notes.push(event.note);
     }
   }
 }

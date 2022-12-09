@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@notes/core/services/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -42,27 +44,18 @@ export class SignInComponent implements OnInit {
     this.userService.login(loginData).subscribe(
       (result) => {
         this.isLoading = false;
-        this.router.navigate([''])
+        this.snackbar.open('Successfully logged in');
+        this.router.navigate(['']);
         // if (this.route.snapshot.queryParams.continue) {
         //   window.location.href = this.route.snapshot.queryParams.continue;
         // } else {
-        //   this.router.navigate(['']);
+        //   this.router.navigate(['home']);
         // }
       },
       (err) => {
         this.isLoading = false;
         // console.log(err.error);
-        // this.errors = err.error.non_field_errors;
-        // if (this.errors.includes('E-mail is not verified.')) {
-        //   this.authService.resendVerificationEmail(this.loginForm.value.email).subscribe(
-        //     () => {
-        //       this.snackbarService.error('Verification email sent');
-        //     }
-        //   );
-        // }
-        // this.snackbarService.error(this.errors[0]);
-      }
-    );
+      });
   }
 
 }

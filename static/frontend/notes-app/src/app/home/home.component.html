@@ -1,16 +1,21 @@
 <div class="create-note-section shadow-sm">
   <form [formGroup]="postForm">
-    <input matInput formControlName="title" autocomplete="off" type="text" placeholder="Title" class="text-input" #input>
-    <textarea matInput cdkTextareaAutosize formControlName="content" autocomplete="off" placeholder="Take a note..." class="content-input" cols="100"></textarea>
+    <textarea matInput cdkTextareaAutosize formControlName="title" autocomplete="off" placeholder="Title" class="content-input text-input" rows="2" cols="100"></textarea>
+    <textarea matInput cdkTextareaAutosize formControlName="content" autocomplete="off" placeholder="Take a note..." class="content-input" rows="2" cols="100"></textarea>
   </form>
-  <button mat-button (click)="createNote()">Submit</button>
+  <button mat-button (click)="createNote()">Add</button>
 </div>
 
 <div class="grid-container" *ngIf="pinnedNotes.length">
   <p class="font-bold grid-subtitle">PINNED</p>
   <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
     <ng-container *ngFor="let note of pinnedNotes">
-      <app-note-card [note]="note" [user]="user" (archiveEvent)="archivedEvent($event)"></app-note-card>
+      <app-note-card
+        [note]="note"
+        [user]="user"
+        (archiveEvent)="archivedEvent($event)"
+        (pinNoteEvent)="notePinnedEvent($event)">
+      </app-note-card>
     </ng-container>
   </div>
 </div>
@@ -19,7 +24,12 @@
   <p class="font-bold grid-subtitle">OTHERS</p>
   <div class="card-grid" [ngStyle]="{'column-count': columnCount}" id="grid-breakpoint">
     <ng-container *ngFor="let note of notes">
-      <app-note-card [note]="note" [user]="user" (archiveEvent)="archivedEvent($event)"></app-note-card>
+      <app-note-card
+        [note]="note"
+        [user]="user"
+        (archiveEvent)="archivedEvent($event)"
+        (pinNoteEvent)="notePinnedEvent($event)">
+      </app-note-card>
     </ng-container>
   </div>
 </div>
