@@ -62,10 +62,6 @@ export class NoteService {
     return this.http.put(this.baseUrl + `notes/${note_id}/toggle_pinned/`, {});
   }
 
-  filterNotes(user_id: number, label: string | null, pinned: boolean | null, archived: boolean | null) {
-    return this.http.get(this.baseUrl + `notes/?user=${user_id}&labels__name=${label}&is_pinned=${pinned}&is_archived=${archived}`);
-  }
-
   getArchived(){
     return this.http.get(this.baseUrl + `notes/archived/`);
   }
@@ -94,6 +90,10 @@ export class NoteService {
     return this.http.delete(this.baseUrl + `labels/${label_id}/`);
   }
 
+  getNotesByLabel(label: string) {
+    return this.http.get(this.baseUrl + `notes/?label=${label}`)
+  }
+  
   addCollaborator(note_id: number, data){
     return this.http.put(this.baseUrl + `notes/${note_id}/add_collaborator/`, data);
   }

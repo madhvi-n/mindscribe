@@ -26,9 +26,7 @@ export class LabelComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAuthUser();
-    this.getPinnedNotes(this.route.snapshot.params.label);
     this.getNotes(this.route.snapshot.params.label);
-    // this.changeDetectorRef.detectChanges();
     this.onResize();
   }
 
@@ -54,18 +52,45 @@ export class LabelComponent implements OnInit {
       })
   }
 
-  getPinnedNotes(label: string) {
-    this.noteService.filterNotes(this.user.id, label, true, null).subscribe(
+  getNotes(label: string) {
+    this.noteService.getNotesByLabel(label).subscribe(
       (response: any) => {
-        this.pinnedNotes = response;
+        response.forEach(element => {
+          if(element.is_pinned) {
+            this.pinnedNotes.push(element);
+          } else {
+            this.notes.push(element);
+          }
+        });
       })
   }
 
-  getNotes(label: string) {
-    this.noteService.filterNotes(this.user.id, label, false, null).subscribe(
-      (response: any) => {
-        this.notes = response;
+  archivedEvent(event: any) {
+    if(event.is_pinned){
+        this.pinnedNotes = this.pinnedNotes.filter((note) => {
+          return note.id !== event.note;
+        })
+    } else {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note;
       })
+    }
+  }
+
+  notePinnedEvent(event: any) {
+    if(event.is_pinned) {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note.id;
+      })
+      event.note.is_pinned = true;
+      this.pinnedNotes.push(event.note);
+    } else {
+      this.pinnedNotes = this.pinnedNotes.filter((note) => {
+        return note.id !== event.note.id;
+      })
+      event.note.is_pinned = false;
+      this.notes.push(event.note);
+    }
   }
 
 }

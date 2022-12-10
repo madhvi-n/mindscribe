@@ -28,7 +28,10 @@ class NoteViewSet(BaseViewSet):
         return queryset
 
     def list(self, request):
+        label = request.query_params.get('label', None)
         queryset = self.get_queryset().exclude(is_archived=True)
+        if label:
+            queryset = queryset.filter(labels__name=label)
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
