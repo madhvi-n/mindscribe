@@ -105,11 +105,11 @@ export class HomeComponent implements OnInit {
     if(event.is_pinned){
         this.pinnedNotes = this.pinnedNotes.filter((note) => {
           return note.id !== event.note;
-        })
+        });
     } else {
       this.notes = this.notes.filter((note) => {
         return note.id !== event.note;
-      })
+      });
     }
   }
 
@@ -117,15 +117,28 @@ export class HomeComponent implements OnInit {
     if(event.is_pinned) {
       this.notes = this.notes.filter((note) => {
         return note.id !== event.note.id;
-      })
+      });
       event.note.is_pinned = true;
       this.pinnedNotes.push(event.note);
     } else {
       this.pinnedNotes = this.pinnedNotes.filter((note) => {
         return note.id !== event.note.id;
-      })
+      });
       event.note.is_pinned = false;
       this.notes.push(event.note);
+    }
+  }
+
+  noteDeleteEvent(event: any){
+    console.log(event);
+    if(event.is_pinned) {
+      this.pinnedNotes = this.pinnedNotes.filter((note) => {
+        return note.id !== event.note;
+      });
+    } else {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note.id;
+      });
     }
   }
 }

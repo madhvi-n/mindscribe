@@ -93,4 +93,16 @@ export class LabelComponent implements OnInit {
     }
   }
 
+  noteDeleteEvent(event: any){
+    console.log(event);
+    if(event.is_pinned) {
+      this.pinnedNotes = this.pinnedNotes.filter((note) => {
+        return note.id !== event.note;
+      });
+    } else {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note.id;
+      });
+    }
+  }
 }

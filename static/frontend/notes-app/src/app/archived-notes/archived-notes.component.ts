@@ -90,4 +90,17 @@ export class ArchivedNotesComponent implements OnInit {
       this.notes.push(event.note);
     }
   }
+
+  noteDeleteEvent(event: any){
+    console.log(event);
+    if(event.is_pinned) {
+      this.pinnedNotes = this.pinnedNotes.filter((note) => {
+        return note.id !== event.note;
+      });
+    } else {
+      this.notes = this.notes.filter((note) => {
+        return note.id !== event.note.id;
+      });
+    }
+  }
 }

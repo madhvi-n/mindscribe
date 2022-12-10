@@ -14,7 +14,8 @@
         [note]="note"
         [user]="user"
         (archiveEvent)="archivedEvent($event)"
-        (pinNoteEvent)="notePinnedEvent($event)">
+        (pinNoteEvent)="notePinnedEvent($event)"
+        (deleteEvent)="noteDeleteEvent($event)">
       </app-note-card>
     </ng-container>
   </div>
@@ -28,7 +29,8 @@
         [note]="note"
         [user]="user"
         (archiveEvent)="archivedEvent($event)"
-        (pinNoteEvent)="notePinnedEvent($event)">
+        (pinNoteEvent)="notePinnedEvent($event)"
+        (deleteEvent)="noteDeleteEvent($event)">
       </app-note-card>
     </ng-container>
   </div>

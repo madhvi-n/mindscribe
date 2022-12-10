@@ -32,7 +32,11 @@
   </ng-template>
 
   <div class="card-labels" *ngIf="note.labels">
-    
+    <mat-chip-list *ngFor="let label of note.labels">
+      <a [routerLink]="[ 'labels', label.name ]" style="cursor:pointer">
+        <mat-chip>{{ label.name }}</mat-chip>
+      </a>
+    </mat-chip-list>
   </div>
 
   <div class="card-footer">
@@ -55,6 +59,7 @@
     </button>
 
     <button mat-icon-button><mat-icon style="color: #212324">group_add</mat-icon></button>
+    <button mat-icon-button (click)="delete()"><mat-icon style="color: #212324">delete</mat-icon></button>
     <!-- <button mat-icon-button><mat-icon style="color: #212324">more_vert</mat-icon></button> -->
   </div>
 </div>

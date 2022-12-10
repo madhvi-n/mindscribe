@@ -18,10 +18,14 @@ export class NoteCardComponent implements OnInit {
   @Input() note: Note;
   @Input() user: User;
   @Input() detail: boolean = false;
+
   colors: [] = [];
+
+  postForm: FormGroup;
+
   @Output() archiveEvent = new EventEmitter();
   @Output() pinNoteEvent = new EventEmitter();
-  postForm: FormGroup;
+  @Output() deleteEvent = new EventEmitter();
 
   constructor(
     private userService: UserService,
@@ -118,6 +122,15 @@ export class NoteCardComponent implements OnInit {
   }
 
   removeLabel(label) {
-    
+
+  }
+
+  delete() {
+    this.noteService.deleteNote(this.note.id).subscribe(
+      (response: any) => {
+        if(response.success) {
+          this.deleteEvent.emit({'note': this.note.id, 'is_pinned': this.note.is_pinned});
+        }
+      })
   }
 }
