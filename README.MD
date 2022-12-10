@@ -94,7 +94,7 @@ Adding data from shell
 Start another shell tab and access the root of frontend directory `notes-app` (without bash or activated virtual environment). <br>
 Install the angular dependencies
 ```
-cd static/frontent/reddit-app
+cd static/frontent/notes-app
 npm install
 ```
 
