@@ -45,10 +45,15 @@ Create django superuser so that you can access django admin interface
 python manage.py createsuperuser
 
 ```
+Access python shell
+
+```
+python manage.py shell
+```
+
 
 Adding data from shell
 ```
-python manage.py shell
 from django.contrib.auth.models import User
 user = User.objects.get(id=1) # Considering the createsuperuser command has been executed before
 
@@ -82,12 +87,6 @@ python manage.py runserver
 Visit `http://127.0.0.1:8000/` or `localhost:8000` for running web server
 Alternatively you can access the admin interface on `http://127.0.0.1:8000/admin/` or `localhost:8000/admin`
 
-Access python shell using
-```
-python manage.py shell
-```
-
-Adding data from shell
 
 ### Frontend
 
