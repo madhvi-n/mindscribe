@@ -39,18 +39,12 @@ export class SignInComponent implements OnInit {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password
     };
-    console.log(loginData);
     this.isLoading = true;
     this.userService.login(loginData).subscribe(
       (result) => {
         this.isLoading = false;
         this.snackbar.open('Successfully logged in');
         this.router.navigate(['']);
-        // if (this.route.snapshot.queryParams.continue) {
-        //   window.location.href = this.route.snapshot.queryParams.continue;
-        // } else {
-        //   this.router.navigate(['home']);
-        // }
       },
       (err) => {
         this.isLoading = false;
