@@ -1,4 +1,4 @@
-# 🗒️ MindScribe
+# 🗒️ MindScribe - Capture, Organize, and Retrieve Your Thoughts Effortlessly
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-4.1-brightgreen?style=flat&logo=django&logoColor=white)](https://www.djangoproject.com/)
