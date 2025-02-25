@@ -1,5 +1,6 @@
 # 🗒️ MindScribe - Capture, Organize, and Retrieve Your Thoughts Effortlessly
 
+[![Django CI](https://github.com/madhvi-n/mindscribe/actions/workflows/django.yml/badge.svg?branch=main)](https://github.com/madhvi-n/mindscribe/actions/workflows/django.yml)
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-4.1-brightgreen?style=flat&logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Django Rest Framework](https://img.shields.io/badge/Django_Rest_Framework-3.11-red)](https://www.django-rest-framework.org/)
