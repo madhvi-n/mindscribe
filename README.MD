@@ -2,8 +2,8 @@
 
 [![Django CI](https://github.com/madhvi-n/mindscribe/actions/workflows/django.yml/badge.svg?branch=main)](https://github.com/madhvi-n/mindscribe/actions/workflows/django.yml)
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![Django](https://img.shields.io/badge/Django-4.1-brightgreen?style=flat&logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![Django Rest Framework](https://img.shields.io/badge/Django_Rest_Framework-3.11-red)](https://www.django-rest-framework.org/)
+[![Django](https://img.shields.io/badge/Django-5.1-brightgreen?style=flat&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Django Rest Framework](https://img.shields.io/badge/Django_Rest_Framework-3.15-red)](https://www.django-rest-framework.org/)
 [![Angular](https://img.shields.io/badge/Angular-10-blueviolet)](https://angular.io/)
 
 **MindScribe** is a Google Keep-inspired note-taking application built with Django and Angular. It enables users to create, manage, and organize notes efficiently with a simple and intuitive interface.
