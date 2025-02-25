@@ -8,13 +8,15 @@ from .mixins import (
     DestroyModelMixin,
 )
 
+
 class BaseReadOnlyViewSet(
-        mixins.ListModelMixin,
-        mixins.RetrieveModelMixin,
-        MultiSerializerViewSetMixin,
-        MultiPermissionViewSetMixin,
-        PaginatedResponseMixin,
-        viewsets.GenericViewSet):
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    MultiSerializerViewSetMixin,
+    MultiPermissionViewSetMixin,
+    PaginatedResponseMixin,
+    viewsets.GenericViewSet,
+):
 
     def get_serializer_context(self):
         context = super(BaseReadOnlyViewSet, self).get_serializer_context()
@@ -29,8 +31,9 @@ class BaseReadOnlyViewSet(
 
 
 class BaseViewSet(
-        mixins.CreateModelMixin,
-        mixins.UpdateModelMixin,
-        DestroyModelMixin,
-        BaseReadOnlyViewSet):
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    DestroyModelMixin,
+    BaseReadOnlyViewSet,
+):
     pass

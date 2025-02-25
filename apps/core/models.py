@@ -18,4 +18,5 @@ class TimeStampedModel(models.Model):
 
     def is_edited(self):
         return (self.updated_at - self.created_at).total_seconds() > 1
+
     edited = property(is_edited)

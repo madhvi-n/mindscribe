@@ -1,1 +1,1 @@
-web: gunicorn django_notes.wsgi
+web: gunicorn mind_scribe.wsgi

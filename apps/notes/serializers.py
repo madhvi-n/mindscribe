@@ -11,18 +11,25 @@ class NoteCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = (
-            'id', 'title', 'content', 'color', 'collaborators',
-            'is_pinned', 'is_archived', 'user', 'labels'
+            "id",
+            "title",
+            "content",
+            "color",
+            "collaborators",
+            "is_pinned",
+            "is_archived",
+            "user",
+            "labels",
         )
-        read_only_fields = ('id', 'collaborators', 'labels')
+        read_only_fields = ("id", "collaborators", "labels")
 
     def create(self, validated_data):
         note = Note.objects.create(**validated_data)
         return note
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
-        instance.content = validated_data.get('content', instance.content)
+        instance.title = validated_data.get("title", instance.title)
+        instance.content = validated_data.get("content", instance.content)
         instance.save()
         return instance
 
@@ -34,7 +41,16 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = (
-            'id', 'title', 'content', 'color', 'is_pinned',
-            'user', 'collaborators', 'labels',
-            'is_archived', 'is_edited', 'created_at', 'updated_at'
+            "id",
+            "title",
+            "content",
+            "color",
+            "is_pinned",
+            "user",
+            "collaborators",
+            "labels",
+            "is_archived",
+            "is_edited",
+            "created_at",
+            "updated_at",
         )

@@ -10,30 +10,78 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('labels', '0001_initial'),
+        ("labels", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=200)),
-                ('content', models.TextField(blank=True)),
-                ('is_pinned', models.BooleanField(default=False)),
-                ('is_archived', models.BooleanField(default=False)),
-                ('color', models.CharField(choices=[('INDIANRED', 'Indianred'), ('ORANGE', 'Orange'), ('YELLOW', 'Yellow'), ('GREENYELLOW', 'Greenyellow'), ('TURQUOISE', 'Turquoise'), ('LIGHTSKYBLUE', 'Lightskyblue'), ('ROYALBLUE', 'Royalblue'), ('MISTYROSE', 'Mistyrose'), ('VIOLET', 'Violet'), ('HOTPINK', 'Hotpink'), ('ROSYBROWN', 'Rosybrown'), ('DARKGRAY', 'Darkgray'), ('WHITE', 'White')], default='WHITE', max_length=15)),
-                ('collaborators', models.ManyToManyField(blank=True, related_name='collaborators', to=settings.AUTH_USER_MODEL)),
-                ('labels', models.ManyToManyField(blank=True, related_name='labels', to='labels.Label')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=200)),
+                ("content", models.TextField(blank=True)),
+                ("is_pinned", models.BooleanField(default=False)),
+                ("is_archived", models.BooleanField(default=False)),
+                (
+                    "color",
+                    models.CharField(
+                        choices=[
+                            ("INDIANRED", "Indianred"),
+                            ("ORANGE", "Orange"),
+                            ("YELLOW", "Yellow"),
+                            ("GREENYELLOW", "Greenyellow"),
+                            ("TURQUOISE", "Turquoise"),
+                            ("LIGHTSKYBLUE", "Lightskyblue"),
+                            ("ROYALBLUE", "Royalblue"),
+                            ("MISTYROSE", "Mistyrose"),
+                            ("VIOLET", "Violet"),
+                            ("HOTPINK", "Hotpink"),
+                            ("ROSYBROWN", "Rosybrown"),
+                            ("DARKGRAY", "Darkgray"),
+                            ("WHITE", "White"),
+                        ],
+                        default="WHITE",
+                        max_length=15,
+                    ),
+                ),
+                (
+                    "collaborators",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="collaborators",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "labels",
+                    models.ManyToManyField(
+                        blank=True, related_name="labels", to="labels.Label"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="notes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Note',
-                'verbose_name_plural': 'Notes',
-                'ordering': ['created_at'],
+                "verbose_name": "Note",
+                "verbose_name_plural": "Notes",
+                "ordering": ["created_at"],
             },
         ),
     ]

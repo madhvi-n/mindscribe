@@ -16,10 +16,12 @@ class NoteViewSet(BaseViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     serializer_action_classes = {
-        'create': NoteCreateSerializer,
-        'update': NoteCreateSerializer
+        "create": NoteCreateSerializer,
+        "update": NoteCreateSerializer,
     }
-    permission_class = [IsAuthenticated,]
+    permission_class = [
+        IsAuthenticated,
+    ]
     filterset_class = NoteFilterSet
 
     def get_queryset(self):
@@ -28,7 +30,7 @@ class NoteViewSet(BaseViewSet):
         return queryset
 
     def list(self, request):
-        label = request.query_params.get('label', None)
+        label = request.query_params.get("label", None)
         queryset = self.get_queryset().exclude(is_archived=True)
         if label:
             queryset = queryset.filter(labels__name=label)
@@ -39,9 +41,13 @@ class NoteViewSet(BaseViewSet):
     def create(self, request):
         data = request.data
         if not request.user.is_authenticated:
-            return Response({'error':'The user is anonymous'}, status=status.HTTP_401_UNAUTHORIZED)
-        if data['user'] != request.user.pk:
-            return Response({'error': 'Spoofing detected'}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "The user is anonymous"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+        if data["user"] != request.user.pk:
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
 
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=data)
@@ -56,10 +62,14 @@ class NoteViewSet(BaseViewSet):
         user = request.user
 
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
 
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=data, instance=note)
@@ -72,78 +82,106 @@ class NoteViewSet(BaseViewSet):
         note = self.get_object()
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
 
         note.delete()
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def add_label(self, request, pk=None):
         note = self.get_object()
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
-            label = data.pop('label', None)
+            label = data.pop("label", None)
             label_obj = None
-            if 'id' in label.keys():
-                label_obj = Label.objects.get(pk=label['id'])
+            if "id" in label.keys():
+                label_obj = Label.objects.get(pk=label["id"])
             else:
-                label_obj, created = Label.objects.get_or_create(name=label['name'], user=user)
+                label_obj, created = Label.objects.get_or_create(
+                    name=label["name"], user=user
+                )
             if label_obj is not None and label_obj not in note.labels.all():
                 note.labels.add(label_obj)
         except Exception as e:
-            return Response({"error": str(e), "message": e.message}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": str(e), "message": e.message},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(label_obj)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def remove_label(self, request, pk=None):
         note = self.get_object()
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
-            label = data.pop('label', None)
+            label = data.pop("label", None)
             label_obj = None
-            if 'id' in label.keys():
-                label_obj = Label.objects.get(pk=label['id'], user=user)
+            if "id" in label.keys():
+                label_obj = Label.objects.get(pk=label["id"], user=user)
             if label_obj is not None and label_obj in note.labels.all():
                 note.labels.remove(label_obj)
         except Exception as e:
-            return Response({"error": str(e), "message": e.message}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": str(e), "message": e.message},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def toggle_pinned(self, request, pk=None):
         user = request.user
         note = self.get_object()
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         note = self.get_object()
         note.is_pinned = not note.is_pinned
         note.save()
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def toggle_archived(self, request, pk=None):
         user = request.user
         note = self.get_object()
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
             note.is_archived = not note.is_archived
             note.save()
@@ -151,36 +189,47 @@ class NoteViewSet(BaseViewSet):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def change_color(self, request, pk=None):
         user = request.user
         note = self.get_object()
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
             data = request.data
             note = self.get_object()
-            note.color = data['color']
+            note.color = data["color"]
             note.save()
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"success": True}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def add_collaborator(self, request, pk=None):
         note = self.get_object()
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
             data = request.data
-            collaborator_id = data.pop('collaborator', None)
+            collaborator_id = data.pop("collaborator", None)
             collaborator = User.objects.get(pk=collaborator_id)
-            if collaborator is not None and collaborator not in note.collaborators.all():
+            if (
+                collaborator is not None
+                and collaborator not in note.collaborators.all()
+            ):
                 note.collaborators.add(collaborator)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -188,19 +237,26 @@ class NoteViewSet(BaseViewSet):
         serializer = serializer_class(note)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def remove_collaborator(self, request, pk=None):
         note = self.get_object()
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         if note.user != user:
-            return Response({"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "Spoofing detected"}, status=status.HTTP_403_FORBIDDEN
+            )
         try:
             data = request.data
-            collaborator_id = data.pop('collaborator', None)
+            collaborator_id = data.pop("collaborator", None)
             collaborator = User.objects.get(pk=collaborator_id)
-            if collaborator is not None and collaborator not in note.collaborators.all():
+            if (
+                collaborator is not None
+                and collaborator not in note.collaborators.all()
+            ):
                 note.collaborators.remove(collaborator)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -212,7 +268,9 @@ class NoteViewSet(BaseViewSet):
     def archived(self, request, pk=None):
         user = request.user
         if not user.is_authenticated:
-            return Response({"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "User not authorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         serializer_class = self.get_serializer_class()
         queryset = Note.objects.filter(is_archived=True, user=user)
         serializer = serializer_class(queryset, many=True)
@@ -220,4 +278,6 @@ class NoteViewSet(BaseViewSet):
 
     @action(detail=False)
     def colors(self, request, pk=None):
-        return Response({"colors": dict(Note.Color.choices).values()}, status=status.HTTP_200_OK)
+        return Response(
+            {"colors": dict(Note.Color.choices).values()}, status=status.HTTP_200_OK
+        )

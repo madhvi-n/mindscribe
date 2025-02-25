@@ -5,11 +5,7 @@ from django.contrib.auth.models import User
 
 class Label(TimeStampedModel):
     name = models.CharField(max_length=30)
-    user = models.ForeignKey(
-        User,
-        related_name="labels",
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, related_name="labels", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Label"

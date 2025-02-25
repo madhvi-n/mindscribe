@@ -22,29 +22,23 @@ class Note(TimeStampedModel):
 
     title = models.CharField(max_length=200)
     content = models.TextField(blank=True)
-    user = models.ForeignKey(
-        User,
-        related_name="notes",
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, related_name="notes", on_delete=models.CASCADE)
     collaborators = models.ManyToManyField(
-        User, blank=True,
+        User,
+        blank=True,
         related_name="collaborators",
     )
     is_pinned = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
-    color = models.CharField(
-        default="WHITE",
-        choices=Color.choices,
-        max_length=15
-    )
+    color = models.CharField(default="WHITE", choices=Color.choices, max_length=15)
     labels = models.ManyToManyField(
-        Label, blank=True,
+        Label,
+        blank=True,
         related_name="labels",
     )
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ["created_at"]
         verbose_name = "Note"
         verbose_name_plural = "Notes"
 

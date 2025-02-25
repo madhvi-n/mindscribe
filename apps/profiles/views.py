@@ -11,10 +11,10 @@ from rest_framework import status, filters
 
 class ProfileViewSet(BaseViewSet):
     queryset = User.objects.all()
-    lookup_field = 'username'
+    lookup_field = "username"
     serializer_class = UserSerializer
-    search_fields = ['first_name', 'last_name', 'username']
-    ordering = ['first_name','last_name']
+    search_fields = ["first_name", "last_name", "username"]
+    ordering = ["first_name", "last_name"]
 
     @action(detail=False)
     def auth(self, request):
@@ -24,7 +24,7 @@ class ProfileViewSet(BaseViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({}, status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def deactivate(self, request, username=None):
         user = self.get_object()
         if user == request.user:
@@ -38,32 +38,36 @@ class ProfileViewSet(BaseViewSet):
             user.is_requesting_delete = True
             user.save()
             return Response(
-                {'success': True,
-                'message': "You request for account deletion has been sent. Your account will be deleted in 15 days"}, status=status.HTTP_200_OK
+                {
+                    "success": True,
+                    "message": "You request for account deletion has been sent. Your account will be deleted in 15 days",
+                },
+                status=status.HTTP_200_OK,
             )
         return Response(
-            {'success': False, 'message': "You are not authorized to delete this account."},
-            status=status.HTTP_401_UNAUTHORIZED
+            {
+                "success": False,
+                "message": "You are not authorized to delete this account.",
+            },
+            status=status.HTTP_401_UNAUTHORIZED,
         )
 
 
 class IsAuthenticatedView(APIView):
     def get(self, request):
         if request.user and request.user.is_authenticated:
-            fb = {'provider': u'facebook'}
-            if request.user.socialaccount_set.count() != 0\
-                    and fb in request.user.socialaccount_set\
-                    .values('provider'):
+            fb = {"provider": "facebook"}
+            if (
+                request.user.socialaccount_set.count() != 0
+                and fb in request.user.socialaccount_set.values("provider")
+            ):
+                return Response(data={"authenticated": True}, status=status.HTTP_200_OK)
+            if not request.user.emailaddress_set.filter(verified=True).exists():
                 return Response(
-                    data={'authenticated': True}, status=status.HTTP_200_OK)
-            if not request.user.emailaddress_set\
-                    .filter(verified=True).exists():
-                return Response(
-                    data={'authenticated': False},
-                    status=status.HTTP_401_UNAUTHORIZED)
-            return Response(
-                data={'authenticated': True}, status=status.HTTP_200_OK)
+                    data={"authenticated": False}, status=status.HTTP_401_UNAUTHORIZED
+                )
+            return Response(data={"authenticated": True}, status=status.HTTP_200_OK)
         else:
             return Response(
-                data={'authenticated': False},
-                status=status.HTTP_401_UNAUTHORIZED)
+                data={"authenticated": False}, status=status.HTTP_401_UNAUTHORIZED
+            )
