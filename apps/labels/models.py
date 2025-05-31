@@ -10,6 +10,7 @@ class Label(TimeStampedModel):
     class Meta:
         verbose_name = "Label"
         verbose_name_plural = "Labels"
+        unique_together = ("name", "user")
 
     def __str__(self):
         return f"{self.name}"

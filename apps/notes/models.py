@@ -26,15 +26,15 @@ class Note(TimeStampedModel):
     collaborators = models.ManyToManyField(
         User,
         blank=True,
-        related_name="collaborators",
+        related_name="shared_notes",
     )
     is_pinned = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
-    color = models.CharField(default="WHITE", choices=Color.choices, max_length=15)
+    color = models.CharField(default=Color.WHITE, choices=Color.choices, max_length=15)
     labels = models.ManyToManyField(
         Label,
         blank=True,
-        related_name="labels",
+        related_name="notes",
     )
 
     class Meta:
