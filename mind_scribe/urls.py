@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from .schema import schema_view
+from django.views.generic.base import TemplateView
 
 
 urlpatterns = [

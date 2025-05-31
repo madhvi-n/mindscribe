@@ -13,13 +13,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
-
+import sys
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -53,7 +53,11 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "corsheaders",
     "django_filters",
-    "drf_yasg"
+    "drf_yasg",
+    "core",
+    "notes",
+    "profiles",
+    "labels"
 ]
 
 MIDDLEWARE = [
